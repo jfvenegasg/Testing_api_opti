@@ -2,36 +2,53 @@ import unittest
 import pickle
 import pandas as pd
 import numpy as np
+import random as rd
 from pyomo.environ import *
 
-from my_sum import sum
+from modelos_optimizacion import mochila
 
 
 class TestSum(unittest.TestCase):
-    def test_list_int(self):
+    def test_restriccion_1(self):
         """
-        Test that it can sum a list of integers
+        Se realiza el test para el valor de la restriccion 1 con un conjunto aleatorio de pesos pequeños
         """
-        #data = [1, 2, 3]
-        #result = sum(data)
-        #self.assertEqual(result, 7)
+        min=1
+        max=100
 
-        #data = pd.DataFrame({'Peso Objeto 1': [objeto1_peso],'Peso Objeto 2': [objeto2_peso], 'Peso Objeto 3': [objeto3_peso], 
-        #                 'Peso Objeto 4': [objeto4_peso],'Peso Objeto 5': [objeto5_peso],'Peso Total': [peso_total]})
-        modelo = pickle.load(open("modelo_optimizacion/modelo.pkl", "rb"))
+        data_1=[rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max)]
+        
+        res_1=mochila(data_1)
+        
+        self.assertLessEqual(res_1,data_1[5])
 
-        data=pd.DataFrame([25,27,23,26,28,60])
-        modelo.restriccion = Constraint(expr=data.iloc[0]*modelo.x1 + data.iloc[1]*modelo.x2+data.iloc[2]*modelo.x3+data.iloc[3]*modelo.x4+data.iloc[4]*modelo.x5 <= data.iloc[5])
+    def test_restriccion_2(self):
+        """
+        Se realiza el test para el valor de la restriccion 1 con un conjunto aleatorio de pesos medianos
+        """
+        min=100
+        max=1000
 
+        data_2=[rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max)]
 
-        glpsol_path = 'glpk-4.65/w64/glpsol.exe'
-        #solver.set_executable(executable='app/glpk-4.65/w64/glpsol.exe', validate=False)
-        solver = SolverFactory('glpk', executable=glpsol_path)  
+        
+        res_2=mochila(data_2)
 
-        resultado = solver.solve(modelo)
+        self.assertLessEqual(res_2,data_2[5])
 
-        self.assertLessEqual(value(modelo.x1)*data.iloc[0]+value(modelo.x2)*data.iloc[1]+value(modelo.x3)*data.iloc[2]+
-            value(modelo.x4)*data.iloc[3]+value(modelo.x5)*data.iloc[4],data[5])
+    def test_restriccion_3(self):
+        """
+        Se realiza el test para el valor de la restriccion 1 con un conjunto aleatorio de pesos grandes
+        """
 
+        min=100000
+        max=10000000
+        data_3=[rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max)]
+
+        
+        res_3=mochila(data_3)
+
+        self.assertLessEqual(res_3,data_3[5])
+        
 if __name__ == '__main__':
     unittest.main()
