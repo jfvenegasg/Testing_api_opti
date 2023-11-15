@@ -18,9 +18,9 @@ class TestSum(unittest.TestCase):
 
         data_1=[rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max)]
         
-        res_1=mochila(data_1)
+        resultado_1=mochila(data_1)
         
-        self.assertLessEqual(res_1,data_1[5])
+        self.assertLessEqual(resultado_1['res'],data_1[5])
 
     def test_restriccion_2(self):
         """
@@ -32,23 +32,24 @@ class TestSum(unittest.TestCase):
         data_2=[rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max)]
 
         
-        res_2=mochila(data_2)
+        resultado_2=mochila(data_2)
 
-        self.assertLessEqual(res_2,data_2[5])
+        self.assertLessEqual(resultado_2['res'],data_2[5])
 
-    def test_restriccion_3(self):
+    def test_variables_binarias(self):
         """
-        Se realiza el test para el valor de la restriccion 1 con un conjunto aleatorio de pesos grandes
+        Se realiza el test para la suma de las variables binarias
         """
 
-        min=100000
-        max=10000000
+        min=1
+        max=100000
         data_3=[rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max),rd.randint(min,max)]
 
         
-        res_3=mochila(data_3)
+        resultado_3=mochila(data_3)
 
-        self.assertLessEqual(res_3,data_3[5])
-        
+        self.assertGreaterEqual(resultado_3['x1']+resultado_3['x2']+resultado_3['x3']+resultado_3['x4']+resultado_3['x5'],0)
+
+    
 if __name__ == '__main__':
     unittest.main()

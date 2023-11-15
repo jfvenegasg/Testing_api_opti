@@ -30,6 +30,15 @@ def mochila(args):
 
         solver.solve(modelo)
 
-        res = value(modelo.x1)*data.loc[0, 'Peso Objeto 1'] + value(modelo.x2)*data.loc[0, 'Peso Objeto 2'] + value(modelo.x3)*data.loc[0, 'Peso Objeto 3'] + value(modelo.x4)*data.loc[0, 'Peso Objeto 4'] + value(modelo.x5)*data.loc[0, 'Peso Objeto 5']
+        peso_mochila = value(modelo.x1)*data.loc[0, 'Peso Objeto 1'] + value(modelo.x2)*data.loc[0, 'Peso Objeto 2'] + value(modelo.x3)*data.loc[0, 'Peso Objeto 3'] + value(modelo.x4)*data.loc[0, 'Peso Objeto 4'] + value(modelo.x5)*data.loc[0, 'Peso Objeto 5']
 
-        return res
+        resultado = {
+        'res': peso_mochila,
+        'x1': value(modelo.x1),
+        'x2': value(modelo.x2),
+        'x3': value(modelo.x3),
+        'x4': value(modelo.x4),
+        'x5': value(modelo.x5)
+        }
+       
+        return resultado
